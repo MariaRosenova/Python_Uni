@@ -46,7 +46,7 @@ class Cell:
             text=f"Cells Left: {settings.CELL_COUNT}",
             width=12,
             height=4,
-            font=("Helvetica", 30, 'bold')
+            font=("Helvetica", 17, 'bold')
         )
         Cell.cell_count_label_object = lbl
 

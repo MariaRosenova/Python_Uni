@@ -23,7 +23,7 @@ game_title = Label(
     bg='black',
     fg='white',
     text='Minesweeper Game',
-    font=('arial', 48, 'bold')
+    font=('arial', 42, 'bold')
 )
 game_title.place(
     x=utils.width_prct(25),
@@ -45,7 +45,7 @@ center_frame = Frame(
     height=utils.height_prct(750)
 )  # intended for the Minesweeper grid
 center_frame.place(
-    x=utils.width_prct(25),
+    x=utils.width_prct(27),
     y=utils.height_prct(25),
 )
 
