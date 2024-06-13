@@ -18,6 +18,18 @@ top_frame = Frame(
 )  # game information
 top_frame.place(x=0, y=0)
 
+game_title = Label(
+    top_frame,
+    bg='black',
+    fg='white',
+    text='Minesweeper Game',
+    font=('arial', 48, 'bold')
+)
+game_title.place(
+    x=utils.width_prct(25),
+    y=utils.height_prct(5),
+    )
+
 # left sidebar
 left_frame = Frame(
     bg="black",
