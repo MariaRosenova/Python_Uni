@@ -16,7 +16,7 @@ top_frame = Frame(
     bg='black',
     width=settings.WIDTH,
     height=utils.height_prct(25)
-)
+) # game information
 top_frame.place(x=0, y=0)
 
 #left side bar
@@ -24,7 +24,7 @@ left_frame = Frame(
     bg="black",
     width=utils.width_prct(25),
     height=utils.height_prct(75)
-)
+) # game settings or navigation
 left_frame.place(x=0, y=utils.height_prct(25))
 
 center_frame = Frame(
@@ -32,7 +32,7 @@ center_frame = Frame(
     bg='black',
     width=utils.width_prct(75),
     height=utils.height_prct(750)
-)
+) #intended for the Minesweeper grid
 center_frame.place(
     x=utils.width_prct(25),
     y=utils.height_prct(25),
@@ -52,14 +52,14 @@ center_frame.place(
 #     row=1
 # )
 
-for x in range(settings.GRID_SIZE):
+for x in range(settings.GRID_SIZE): # used to create a grid of 'Cell' instances within 'center_frame'
     for y in range(settings.GRID_SIZE):
-        c = Cell()
-        c.create_btn_object(center_frame)
+        c = Cell(x,y) # create an instance
+        c.create_btn_object(center_frame) #creates a 'Button' widget associated with tje cell
         c.cell_btn_object.grid(
             column=x,
             row=y
-        )
+        ) #places the button in the grid layout of 'center_frame'
 
 #Run the window
-root.mainloop()
+root.mainloop() #starts the tkinter event loop, which waits for user interactions and handles events like button clicks
