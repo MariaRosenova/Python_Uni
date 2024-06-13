@@ -1,42 +1,64 @@
-from tkinter import Button
+from tkinter import Button, Label
 import random
 import settings
 
+
 class Cell:
     all = []
-    def __init__(self, x,y, is_mine=False): # every time when we want to create an instance
+    cell_count = settings.CELL_COUNT
+    cell_count_label_object = None
+
+    def __init__(self, x, y, is_mine=False):  # every time when we want to create an instance
         self.is_mine = is_mine
-        self.cell_btn_object = None #will eventually hold a reference to the Button object associated with this cell.
+        self.is_opened = False
+        self.cell_btn_object = None  # will eventually hold a reference to the Button object associated with this cell.
         self.x = x
         self.y = y
 
         # Append the object to the Cell.all list
         Cell.all.append(self)
 
-    def create_btn_object(self, location): #locaion is presumably the parent widget
+    def create_btn_object(self, location):  # location is presumably the parent widget
         btn = Button(
             location,
             width=12,
             height=4,
 
         )
-        btn.bind('<Button-1>', self.left_click_action) #Left Click
-        btn.bind('<Button-3>', self.right_click_action) #Right Click
+        btn.bind('<Button-1>', self.left_click_action)  # Left Click
+        btn.bind('<Button-3>', self.right_click_action)  # Right Click
         self.cell_btn_object = btn
 
+    @staticmethod
+    def create_cell_count_label(location):
+        lbl = Label(
+            location,
+            bg='black',
+            fg='white',
+            text=f"Cells Left: {settings.CELL_COUNT}",
+            width=12,
+            height=4,
+            font=("", 30)
+        )
+        Cell.cell_count_label_object = lbl
+
     def left_click_action(self, event):
-      if self.is_mine:
-          self.show_mine()
-      else:
-          self.show_cell()
-            #the number which represents the amount of minds that
-            #are surrounded the click cell
+        if self.is_mine:
+            self.show_mine()
+        else:
+            if self.surrounded_cells_mines_length == 0:
+                for cell_obj in self.surrounded_cells:
+                    cell_obj.show_cell()
+            self.show_cell()
+            # the number which represents the amount of minds that
+            # are surrounded the click cell
 
     def get_cell_by_axis(self, x, y):
-         # Return a cell object based on the value of x, y
+        # Return a cell object based on the value of x, y
         for cell in Cell.all:
             if cell.x == x and cell.y == y:
                 return cell
+
     @property
     def surrounded_cells(self):
         cells = [
@@ -51,6 +73,7 @@ class Cell:
         ]
         cells = [cell for cell in cells if cell is not None]
         return cells
+
     @property
     def surrounded_cells_mines_length(self):
         counter = 0
@@ -60,11 +83,22 @@ class Cell:
         return counter
 
     def show_cell(self):
-        self.cell_btn_object.configure(text=self.surrounded_cells_mines_length)
-        #to eliminate the nuns
+        if not self.is_opened:
+            Cell.cell_count -= 1
+            self.cell_btn_object.configure(text=self.surrounded_cells_mines_length)
+            # to eliminate the nuns
+            # Replace the text of cell count label with the newer count
+            if Cell.cell_count_label_object:
+                Cell.cell_count_label_object.configure(
+                    text=f"Cells Left: {Cell.cell_count}"
+                )
+        # Mark the cell as opened (Use is as the last line on this method)
+        self.is_opened = True
+
     def show_mine(self):
-            #A logic to interupt the game and display a message that player lost
-            self.cell_btn_object.configure(bg='red')
+        # A logic to interupt the game and display a message that player lost
+        self.cell_btn_object.configure(bg='red')
+
     def right_click_action(self, event):
         print(event)
         print("I am right clicked!")
@@ -78,6 +112,6 @@ class Cell:
         for picked_cell in picked_cells:
             picked_cell.is_mine = True
 
-    #magic method
+    # magic method
     def __repr__(self):
         return f"Cell: {self.x}, {self.y}"
