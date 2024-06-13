@@ -38,19 +38,6 @@ center_frame.place(
     y=utils.height_prct(25),
 )
 
-# c1 = Cell()
-# c1.create_btn_object(center_frame)
-# c1.cell_btn_object.grid(
-#     column=0,
-#     row=0
-# )
-#
-# c2 = Cell()
-# c2.create_btn_object(center_frame)
-# c2.cell_btn_object.grid(
-#     column=1,
-#     row=1
-# )
 
 for x in range(settings.GRID_SIZE): # used to create a grid of 'Cell' instances within 'center_frame'
     for y in range(settings.GRID_SIZE):
@@ -60,6 +47,8 @@ for x in range(settings.GRID_SIZE): # used to create a grid of 'Cell' instances 
             column=x,
             row=y
         ) #places the button in the grid layout of 'center_frame'
+Cell.randomize_mines()
+
 
 #Run the window
 root.mainloop() #starts the tkinter event loop, which waits for user interactions and handles events like button clicks
