@@ -24,8 +24,13 @@ class Cell:
     def create_btn_object(self, location):  # location is presumably the parent widget
         btn = Button(
             location,
-            width=12,
-            height=4,
+            width=6,
+            height=2,
+            bg='#4CAF50',
+            fg='black',
+            font=('Helvetica', 14, 'bold'),
+            relief='raised',
+            borderwidth=2,
 
         )
         btn.bind('<Button-1>', self.left_click_action)  # Left Click
@@ -41,7 +46,7 @@ class Cell:
             text=f"Cells Left: {settings.CELL_COUNT}",
             width=12,
             height=4,
-            font=("", 30)
+            font=("Helvetica", 30, 'bold')
         )
         Cell.cell_count_label_object = lbl
 
@@ -122,6 +127,10 @@ class Cell:
             self.cell_btn_object.configure(
                 bg="orange"
             )
+        else:
+            self.cell_btn_object.configure(
+                bg='#4CAF50'
+            )
             self.is_mine_candidate = True
 
     @staticmethod
@@ -132,6 +141,21 @@ class Cell:
         )
         for picked_cell in picked_cells:
             picked_cell.is_mine = True
+
+    @staticmethod
+    def get_color_by_mine_count(mine_count):
+        colors = {
+            0: 'black',
+            1: 'blue',
+            2: 'green',
+            3: 'red',
+            4: 'purple',
+            5: 'maroon',
+            6: 'turquoise',
+            7: 'black',
+            8: 'grey'
+        }
+        return colors.get(mine_count, 'black')
 
     # magic method
     def __repr__(self):
